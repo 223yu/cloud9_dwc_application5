@@ -40,4 +40,17 @@ class User < ApplicationRecord
     active_relationships.find_by(folowed_id: other_user.id).id
   end
 
+  #nameで検索したレコードを返す
+  def self.search(search_method,word)
+    if search_method == '完全一致'
+      @contents = User.where("name=?","#{word}")
+    elsif search_method == '前方一致'
+      @contents = User.where("name LIKE?","#{word}%")
+    elsif search_method == '後方一致'
+      @contents = User.where("name LIKE?","%#{word}")
+    else
+      @contents = User.where("name LIKE?","%#{word}%")
+    end
+  end
+
 end
